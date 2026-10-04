@@ -33,6 +33,7 @@ function BangladeshMap({
   onDivisionClick,
   interactive = true,
   compact = false
+  compact = false,
 }) {
   const [hovered, setHovered] = useState(null);
   const [tooltip, setTooltip] = useState(null);
