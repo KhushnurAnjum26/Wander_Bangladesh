@@ -1,152 +1,160 @@
-import { useState } from 'react';
+import { useState } from "react";
+import {
+  MAP_WIDTH,
+  MAP_HEIGHT,
+  DIVISION_SHAPES,
+  INTERNAL_BORDERS,
+  SEA_PATH,
+  RIVER_PATHS,
+  MAP_ANCHORS
+} from "../data/bangladeshMapGeo";
 
-/**
- * @typedef {import('../data/divisions').DivisionId} DivisionId
- * @typedef {import('../data/divisions').TouristSpot} TouristSpot
- *
- * @typedef {Object} DivisionShape
- * @property {DivisionId} id
- * @property {string} name
- * @property {string} path
- * @property {number} labelX
- * @property {number} labelY
- * @property {string} color
- */
+// Colourful map of Bangladesh drawn from real division boundaries.
+const DIVISION_STYLE = {
+  rangpur: { name: "Rangpur", color: "#b7d36a", textColor: "#3a4a14" },
+  mymensingh: { name: "Mymensingh", color: "#2f7f72", textColor: "#f5ede0" },
+  sylhet: { name: "Sylhet", color: "#ee9d92", textColor: "#5a2018" },
+  rajshahi: { name: "Rajshahi", color: "#b6b0d6", textColor: "#3a2f66" },
+  dhaka: { name: "Dhaka", color: "#e1e47c", textColor: "#4a4a10" },
+  khulna: { name: "Khulna", color: "#dca5c8", textColor: "#5e2450" },
+  barishal: { name: "Barishal", color: "#8fd0a8", textColor: "#1c5a36" },
+  chattogram: { name: "Chattogram", color: "#dcb96c", textColor: "#5a3e0a" }
+};
 
-/** @type {DivisionShape[]} */
-const DIVISIONS = [
-  {
-    id: 'rangpur',
-    name: 'Rangpur',
-    path: 'M 112,24 L 190,18 L 226,48 L 218,104 L 182,128 L 112,118 L 82,82 Z',
-    labelX: 155, labelY: 74,
-    color: '#2d5a3c',
-  },
-  {
-    id: 'mymensingh',
-    name: 'Mymensingh',
-    path: 'M 226,48 L 296,40 L 340,76 L 326,138 L 284,164 L 218,136 L 218,104 Z',
-    labelX: 274, labelY: 102,
-    color: '#386b5a',
-  },
-  {
-    id: 'sylhet',
-    name: 'Sylhet',
-    path: 'M 340,76 L 414,88 L 444,120 L 414,160 L 350,164 L 326,138 Z',
-    labelX: 385, labelY: 124,
-    color: '#1a4a3c',
-  },
-  {
-    id: 'rajshahi',
-    name: 'Rajshahi',
-    path: 'M 82,82 L 112,118 L 182,128 L 218,136 L 208,202 L 170,226 L 92,212 L 48,168 L 54,112 Z',
-    labelX: 132, labelY: 170,
-    color: '#4a2865',
-  },
-  {
-    id: 'dhaka',
-    name: 'Dhaka',
-    path: 'M 218,136 L 284,164 L 326,138 L 350,164 L 330,224 L 292,262 L 224,250 L 208,202 Z',
-    labelX: 270, labelY: 202,
-    color: '#6b3825',
-  },
-  {
-    id: 'khulna',
-    name: 'Khulna',
-    path: 'M 48,168 L 92,212 L 170,226 L 224,250 L 216,318 L 176,372 L 112,350 L 74,288 Z',
-    labelX: 142, labelY: 278,
-    color: '#4a3a18',
-  },
-  {
-    id: 'barishal',
-    name: 'Barishal',
-    path: 'M 224,250 L 292,262 L 312,306 L 286,368 L 238,350 L 216,318 Z',
-    labelX: 260, labelY: 306,
-    color: '#6b5a2f',
-  },
-  {
-    id: 'chattogram',
-    name: 'Chattogram',
-    path: 'M 350,164 L 414,160 L 424,210 L 406,260 L 430,318 L 398,394 L 350,354 L 312,306 L 292,262 L 330,224 Z',
-    labelX: 365, labelY: 260,
-    color: '#2a5438',
-  },
-];
+const DIVISIONS = Object.keys(DIVISION_STYLE).map((id) => ({
+  id,
+  ...DIVISION_STYLE[id],
+  ...DIVISION_SHAPES[id]
+}));
 
-/**
- * @param {Object} props
- * @param {DivisionId | null} [props.highlightedDivision]
- * @param {TouristSpot[]} [props.spots]
- * @param {(id: DivisionId) => void} [props.onDivisionClick]
- * @param {boolean} [props.interactive]
- * @param {boolean} [props.compact]
- */
-export default function BangladeshMap({
+function BangladeshMap({
   highlightedDivision,
   spots = [],
   onDivisionClick,
   interactive = true,
+  compact = false
   compact = false,
 }) {
   const [hovered, setHovered] = useState(null);
   const [tooltip, setTooltip] = useState(null);
 
-  const getDivisionColor = (p) => {
-    if (highlightedDivision) {
-      if (p.id === highlightedDivision) return p.color;
-      return '#d4c8b0';
-    }
-    if (hovered === p.id) return p.color;
-    return '#c8bb98';
+  const getOpacity = (p) => {
+    if (highlightedDivision) return p.id === highlightedDivision ? 1 : 0.35;
+    if (hovered) return hovered === p.id ? 1 : 0.8;
+    return 1;
   };
 
-  const getDivisionOpacity = (p) => {
-    if (highlightedDivision) {
-      return p.id === highlightedDivision ? 1 : 0.45;
-    }
-    return hovered === p.id ? 1 : 0.75;
+  const activeId = highlightedDivision || hovered;
+  const activeDivision = DIVISIONS.find((d) => d.id === activeId);
+
+  // Draw the active division last so it sits on top
+  const drawOrder = [...DIVISIONS].sort(
+    (a, b) => Number(a.id === activeId) - Number(b.id === activeId)
+  );
+
+  const neighbourText = {
+    fontFamily: "Outfit, sans-serif",
+    fontWeight: 600,
+    letterSpacing: "0.08em",
+    fill: "#f2efe6",
+    pointerEvents: "none"
   };
 
   return (
-    <div className={`relative select-none ${compact ? 'w-full' : 'w-full'}`}>
+    <div className={`relative select-none ${compact ? "w-full" : "w-full"}`}>
       <svg
-        viewBox="0 0 470 410"
-        className="w-full h-auto drop-shadow-sm"
-        style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.12))' }}
+        viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`}
+        className="w-full h-auto"
+        style={{ filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.12))" }}
       >
-        {/* Background */}
-        <rect x="0" y="0" width="470" height="410" fill="#e8ddd0" rx="8" />
-
-        {/* Subtle grid texture */}
         <defs>
-          <pattern id="mapGrid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#d4c8b0" strokeWidth="0.4" />
-          </pattern>
+          <clipPath id="mapFrame">
+            <rect x="0" y="0" width={MAP_WIDTH} height={MAP_HEIGHT} rx="8" />
+          </clipPath>
+          <clipPath id="bangladeshOnly">
+            {DIVISIONS.map((p) => (
+              <path key={p.id} d={p.path} />
+            ))}
+          </clipPath>
         </defs>
-        <rect x="0" y="0" width="470" height="410" fill="url(#mapGrid)" rx="8" />
 
-        {/* Division shapes */}
-        {DIVISIONS.map((p) => (
-          <g key={p.id}>
+        <g clipPath="url(#mapFrame)">
+          {/* Neighbouring land (India / Myanmar) */}
+          <rect x="0" y="0" width={MAP_WIDTH} height={MAP_HEIGHT} fill="#a9a79c" />
+
+          {/* Bay of Bengal */}
+          <path d={SEA_PATH} fill="#9fd6d3" fillRule="evenodd" />
+          <text
+            x={MAP_ANCHORS.bay[0]}
+            y={MAP_ANCHORS.bay[1]}
+            textAnchor="middle"
+            fontSize="9"
+            fontStyle="italic"
+            letterSpacing="0.14em"
+            fontFamily="Outfit, sans-serif"
+            fill="#2d6e8e"
+            style={{ pointerEvents: "none" }}
+          >
+            BAY OF BENGAL
+          </text>
+
+          {/* Neighbour labels */}
+          <g fontSize="7" style={neighbourText}>
+            <text x={MAP_ANCHORS.meghalaya[0]} y={MAP_ANCHORS.meghalaya[1]} textAnchor="middle">MEGHALAYA</text>
+            <text x={MAP_ANCHORS.meghalaya[0]} y={MAP_ANCHORS.meghalaya[1] + 9} textAnchor="middle">(INDIA)</text>
+            <text x={MAP_ANCHORS.tripura[0]} y={MAP_ANCHORS.tripura[1]} textAnchor="middle" fontSize="6.5">TRIPURA</text>
+            <text x={MAP_ANCHORS.tripura[0]} y={MAP_ANCHORS.tripura[1] + 8} textAnchor="middle" fontSize="6.5">(INDIA)</text>
+            <text transform={`translate(${MAP_ANCHORS.westBengal[0]} ${MAP_ANCHORS.westBengal[1]}) rotate(-90)`} textAnchor="middle">
+              WEST BENGAL (INDIA)
+            </text>
+            <text transform={`translate(${MAP_ANCHORS.myanmar[0]} ${MAP_ANCHORS.myanmar[1]}) rotate(-90)`} textAnchor="middle">
+              MYANMAR
+            </text>
+            <text x={MAP_ANCHORS.assam[0]} y={MAP_ANCHORS.assam[1]} textAnchor="middle">INDIA</text>
+          </g>
+
+          {/* Soft same-colour edge underneath, closes tiny creeks along the coast */}
+          {DIVISIONS.filter((p) => getOpacity(p) === 1).map((p) => (
             <path
+              key={"edge-" + p.id}
               d={p.path}
-              fill={getDivisionColor(p)}
-              fillOpacity={getDivisionOpacity(p)}
-              stroke="#f5ede0"
-              strokeWidth={highlightedDivision === p.id ? 2.5 : 1.5}
+              fill="none"
+              stroke={p.color}
+              strokeWidth="3"
+              strokeLinejoin="round"
+              style={{ pointerEvents: "none" }}
+            />
+          ))}
+
+          {/* Division shapes */}
+          {drawOrder.map((p) => (
+            <path
+              key={p.id}
+              d={p.path}
+              fill={p.color}
+              opacity={getOpacity(p)}
               style={{
-                cursor: interactive ? 'pointer' : 'default',
-                transition: 'fill 0.25s ease, fill-opacity 0.25s ease',
+                cursor: interactive ? "pointer" : "default",
+                transition: "opacity 0.25s ease"
               }}
               onMouseEnter={(e) => {
                 if (!interactive) return;
                 setHovered(p.id);
-                const svgEl = e.target.closest('svg');
+                const svgEl = e.target.closest("svg");
                 const pt = svgEl.createSVGPoint();
                 pt.x = e.clientX;
                 pt.y = e.clientY;
                 const svgPt = pt.matrixTransform(svgEl.getScreenCTM().inverse());
-                setTooltip({ x: svgPt.x, y: svgPt.y - 12, name: p.name + ' Division' });
+                setTooltip({ x: svgPt.x, y: svgPt.y - 12, name: p.name + " Division" });
+              }}
+              onMouseMove={(e) => {
+                if (!interactive) return;
+                const svgEl = e.target.closest("svg");
+                const pt = svgEl.createSVGPoint();
+                pt.x = e.clientX;
+                pt.y = e.clientY;
+                const svgPt = pt.matrixTransform(svgEl.getScreenCTM().inverse());
+                setTooltip({ x: svgPt.x, y: svgPt.y - 12, name: p.name + " Division" });
               }}
               onMouseLeave={() => {
                 setHovered(null);
@@ -154,74 +162,114 @@ export default function BangladeshMap({
               }}
               onClick={() => interactive && onDivisionClick?.(p.id)}
             />
+          ))}
 
-            {/* Division label */}
-            {(!highlightedDivision || highlightedDivision === p.id) && (
-              <text
-                x={p.labelX}
-                y={p.labelY}
-                textAnchor="middle"
-                fill={highlightedDivision === p.id ? '#f5ede0' : '#3a2a18'}
-                fontSize={p.id === 'mymensingh' || p.id === 'chattogram' ? '6.5' : '8.5'}
-                fontFamily="Outfit, sans-serif"
-                fontWeight="600"
-                letterSpacing="0.05em"
-                style={{ pointerEvents: 'none', userSelect: 'none', textTransform: 'uppercase' }}
-              >
-                {p.name}
-              </text>
-            )}
-          </g>
-        ))}
+          {/* Borders between divisions */}
+          <path
+            d={INTERNAL_BORDERS}
+            fill="none"
+            stroke="#fbf6ec"
+            strokeWidth="1.3"
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            style={{ pointerEvents: "none" }}
+          />
 
-        {/* Tourist spot markers */}
-        {spots.map((spot, i) => (
-          <g key={i} style={{ cursor: 'pointer' }}>
-            {/* Pulse ring */}
-            <circle cx={spot.mapX} cy={spot.mapY} r="10" fill="#c4602a" fillOpacity="0.2">
-              <animate attributeName="r" values="8;14;8" dur="2.5s" repeatCount="indefinite" />
-              <animate attributeName="fill-opacity" values="0.3;0;0.3" dur="2.5s" repeatCount="indefinite" />
-            </circle>
-            {/* Pin body */}
-            <circle cx={spot.mapX} cy={spot.mapY} r="5" fill="#c4602a" stroke="#f5ede0" strokeWidth="1.5" />
-            <circle cx={spot.mapX} cy={spot.mapY} r="2" fill="#f5ede0" />
-          </g>
-        ))}
-
-        {/* Compass rose */}
-        <g transform="translate(432, 32)">
-          <text x="0" y="-10" textAnchor="middle" fontSize="7" fill="#6a5a48" fontFamily="Outfit, sans-serif" fontWeight="600">N</text>
-          <line x1="0" y1="-7" x2="0" y2="7" stroke="#6a5a48" strokeWidth="1.2" />
-          <line x1="-7" y1="0" x2="7" y2="0" stroke="#6a5a48" strokeWidth="1.2" />
-          <circle cx="0" cy="0" r="1.5" fill="#6a5a48" />
-        </g>
-
-        {/* Tooltip */}
-        {tooltip && (
-          <g>
-            <rect
-              x={tooltip.x - 45}
-              y={tooltip.y - 18}
-              width="90"
-              height="18"
-              rx="4"
-              fill="#1e3d28"
-              fillOpacity="0.92"
+          {/* Outline of the active division */}
+          {activeDivision && (
+            <path
+              d={activeDivision.path}
+              fill="none"
+              stroke="#1e3d28"
+              strokeWidth="1.6"
+              strokeLinejoin="round"
+              style={{ pointerEvents: "none" }}
             />
-            <text
-              x={tooltip.x}
-              y={tooltip.y - 6}
-              textAnchor="middle"
-              fill="#f5ede0"
-              fontSize="7.5"
-              fontFamily="Outfit, sans-serif"
-              fontWeight="500"
-              style={{ pointerEvents: 'none' }}
-            >
-              {tooltip.name}
-            </text>
+          )}
+
+          {/* Rivers */}
+          <g
+            clipPath="url(#bangladeshOnly)"
+            fill="none"
+            stroke="#5aa6cf"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeOpacity="0.8"
+            style={{ pointerEvents: "none" }}
+          >
+            {RIVER_PATHS.map((d, i) => (
+              <path key={i} d={d} />
+            ))}
           </g>
-        )}
+
+          {/* Division labels */}
+          {DIVISIONS.map(
+            (p) =>
+              (!highlightedDivision || highlightedDivision === p.id) && (
+                <text
+                  key={p.id}
+                  x={p.labelX}
+                  y={p.labelY}
+                  textAnchor="middle"
+                  fill={p.textColor}
+                  fontSize={p.id === "mymensingh" ? "7.5" : "9"}
+                  fontFamily="Outfit, sans-serif"
+                  fontWeight="700"
+                  letterSpacing="0.05em"
+                  style={{ pointerEvents: "none", userSelect: "none", textTransform: "uppercase" }}
+                >
+                  {p.name}
+                </text>
+              )
+          )}
+
+          {/* Tourist spot markers */}
+          {spots.map((spot, i) => (
+            <g key={i} style={{ cursor: "pointer" }}>
+              <circle cx={spot.mapX} cy={spot.mapY} r="10" fill="#c4602a" fillOpacity="0.2">
+                <animate attributeName="r" values="8;14;8" dur="2.5s" repeatCount="indefinite" />
+                <animate attributeName="fill-opacity" values="0.3;0;0.3" dur="2.5s" repeatCount="indefinite" />
+              </circle>
+              <circle cx={spot.mapX} cy={spot.mapY} r="5" fill="#c4602a" stroke="#f5ede0" strokeWidth="1.5" />
+              <circle cx={spot.mapX} cy={spot.mapY} r="2" fill="#f5ede0" />
+            </g>
+          ))}
+
+          {/* Compass */}
+          <g transform={`translate(${MAP_ANCHORS.compass[0]}, ${MAP_ANCHORS.compass[1]})`}>
+            <text x="0" y="-10" textAnchor="middle" fontSize="7" fill="#f2efe6" fontFamily="Outfit, sans-serif" fontWeight="700">N</text>
+            <line x1="0" y1="-7" x2="0" y2="7" stroke="#f2efe6" strokeWidth="1.2" />
+            <line x1="-7" y1="0" x2="7" y2="0" stroke="#f2efe6" strokeWidth="1.2" />
+            <circle cx="0" cy="0" r="1.5" fill="#f2efe6" />
+          </g>
+
+          {/* Tooltip */}
+          {tooltip && (
+            <g style={{ pointerEvents: "none" }}>
+              <rect
+                x={tooltip.x - 45}
+                y={tooltip.y - 18}
+                width="90"
+                height="18"
+                rx="4"
+                fill="#1e3d28"
+                fillOpacity="0.92"
+              />
+              <text
+                x={tooltip.x}
+                y={tooltip.y - 6}
+                textAnchor="middle"
+                fill="#f5ede0"
+                fontSize="7.5"
+                fontFamily="Outfit, sans-serif"
+                fontWeight="500"
+              >
+                {tooltip.name}
+              </text>
+            </g>
+          )}
+        </g>
       </svg>
 
       {/* Legend for spots */}
@@ -238,3 +286,5 @@ export default function BangladeshMap({
     </div>
   );
 }
+
+export { BangladeshMap as default };
