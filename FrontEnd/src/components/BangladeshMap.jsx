@@ -32,7 +32,7 @@ function BangladeshMap({
   spots = [],
   onDivisionClick,
   interactive = true,
-  compact = false,
+  compact = false
 }) {
   const [hovered, setHovered] = useState(null);
   const [tooltip, setTooltip] = useState(null);
@@ -286,4 +286,4 @@ function BangladeshMap({
   );
 }
 
-export default BangladeshMap;
+export { BangladeshMap as default };
