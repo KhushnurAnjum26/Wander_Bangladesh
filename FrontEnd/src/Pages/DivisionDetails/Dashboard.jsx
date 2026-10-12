@@ -44,28 +44,7 @@ const roleContent = {
       { label: 'Guest satisfaction', value: '4.9', note: 'From 184 verified reviews', trend: '+0.2', icon: 'heart' },
     ],
   },
-  admin: {
-    label: 'Admin',
-    eyebrow: 'Operations command center',
-    title: 'Bangladesh at a glance',
-    description: 'Monitor platform health, partners, and traveler activity.',
-    person: 'Platform Admin',
-    initials: 'PA',
-    nav: [
-      { label: 'Overview', icon: 'home' },
-      { label: 'Agencies', icon: 'briefcase' },
-      { label: 'Travelers', icon: 'users' },
-      { label: 'Approvals', icon: 'shield' },
-      { label: 'Payouts', icon: 'briefcase' },
-      { label: 'Content', icon: 'map' },
-      { label: 'Reports', icon: 'chart' },
-    ],
-    metrics: [
-      { label: 'Gross booking value', value: '৳128M', note: 'Across all divisions', trend: '+18.2%', icon: 'chart' },
-      { label: 'Active travelers', value: '12,480', note: '1,204 new this month', trend: '+10.6%', icon: 'users' },
-      { label: 'Verified agencies', value: '86', note: '7 awaiting review', trend: '+4.9%', icon: 'shield' },
-    ],
-  },
+
 };
 
 const activityByRole = {
@@ -79,11 +58,7 @@ const activityByRole = {
     { title: 'Payment released', meta: 'Booking BD-2048 · ৳640,000', status: 'Paid', icon: 'check' },
     { title: 'New five-star review', meta: 'Sundarbans Wildlife Cruise · 38m ago', status: 'View', icon: 'heart' },
   ],
-  admin: [
-    { title: 'Delta Adventures requested verification', meta: 'Agency application · 12m ago', status: 'Review', icon: 'shield' },
-    { title: "High demand detected in Cox's Bazar", meta: 'Bookings up 34% week over week', status: 'Insight', icon: 'chart' },
-    { title: 'Content update submitted', meta: 'Khulna Division travel advisory', status: 'Approve', icon: 'map' },
-  ],
+
 };
 
 const trips = [
@@ -138,22 +113,9 @@ const workspaceRows = {
     { primary: 'Liam Anderson', secondary: 'liam@example.com', detail: '1 booking · United Kingdom', status: 'New' },
     { primary: 'Sofia Martinez', secondary: 'sofia@example.com', detail: '2 bookings · Spain', status: 'Returning' },
   ],
-  'admin:Agencies': [
-    { primary: 'Bengal Trails Bangladesh', secondary: 'Dhaka Division · ID AG-0086', detail: '184 bookings · 4.9 rating', status: 'Verified' },
-    { primary: 'Delta Adventures', secondary: 'Sylhet Division · ID AG-0094', detail: 'Credentials submitted 12 min ago', status: 'Review' },
-    { primary: 'Sundarban Wild Escapes', secondary: 'Chattogram Division · ID AG-0072', detail: '96 bookings · 4.8 rating', status: 'Verified' },
-    { primary: 'Bengal Heritage Tours', secondary: 'Barishal Division · ID AG-0091', detail: 'Insurance document expires soon', status: 'Attention' },
-  ],
-  'admin:Travelers': [
-    { primary: 'Ayesha Rahman', secondary: 'Dhaka, Bangladesh · TR-12480', detail: '4 journeys · Joined March 2024', status: 'Active' },
-    { primary: 'Camille Niyonzima', secondary: 'Paris, France · TR-12479', detail: '3 journeys · Joined April 2024', status: 'Active' },
-    { primary: 'Liam Anderson', secondary: 'London, UK · TR-12478', detail: '1 upcoming journey', status: 'New' },
-  ],
-  'admin:Approvals': [
-    { primary: 'Delta Adventures verification', secondary: 'Agency credentials', detail: 'Business license, insurance and owner ID', status: 'High priority' },
-    { primary: 'Khulna Division advisory', secondary: 'Content update', detail: 'Submitted by Bangladesh Tourism Board', status: 'Review' },
-    { primary: 'Kaptai Lake Kayak Weekend', secondary: 'New experience', detail: 'Submitted by Sundarban Wild Escapes', status: 'Review' },
-  ],
+
+
+
 };
 
 const cardContent = {
@@ -169,12 +131,7 @@ const cardContent = {
     { title: 'Old Dhaka Food & Culture', meta: '1 day · From ৳85K', icon: 'heart', badge: 'Draft' },
     { title: 'Kaptai Lake Weekend', meta: '3 days · Pricing incomplete', icon: 'plus', badge: 'In progress' },
   ],
-  'admin:Content': [
-    { title: 'Division guides', meta: '5 published · Updated today', icon: 'map', badge: 'Current' },
-    { title: 'Travel advisories', meta: '8 active · 1 awaiting review', icon: 'shield', badge: 'Review' },
-    { title: 'Featured stories', meta: '24 published · 3 drafts', icon: 'heart', badge: 'Healthy' },
-    { title: 'Facility directory', meta: '1,248 locations · 92% verified', icon: 'compass', badge: 'Update' },
-  ],
+
 };
 
 function StatusPill({ status }) {
@@ -848,7 +805,7 @@ export default function Dashboard({ onExit }) {
   const quickAction = useMemo(() => {
     if (role === 'user') return { label: 'Plan a journey', icon: 'compass' };
     if (role === 'agency') return { label: 'Create experience', icon: 'plus' };
-    return { label: 'Review approvals', icon: 'shield' };
+    return { label: 'Create experience', icon: 'plus' };
   }, [role]);
 
   const switchRole = (nextRole) => {
@@ -875,9 +832,9 @@ export default function Dashboard({ onExit }) {
         </div>
 
         <div className="p-4">
-          <p className="px-3 text-cream/40 text-xs font-semibold uppercase tracking-widest mb-3">View portal as</p>
-          <div className="grid grid-cols-3 bg-cream/5 rounded-xl p-1">
-            {['user', 'agency', 'admin'].map((item) => (
+          <p className="px-3 text-cream/40 text-xs font-semibold uppercase tracking-widest mb-3">Switch workspace</p>
+          <div className="grid grid-cols-2 bg-cream/5 rounded-xl p-1">
+            {['user', 'agency'].map((item) => (
               <button
                 key={item}
                 onClick={() => switchRole(item)}
