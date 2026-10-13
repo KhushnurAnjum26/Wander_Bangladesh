@@ -6,6 +6,25 @@ import Divisions from './Pages/Divisions';
 import DivisionDetail from './Pages/DivisionDetails';
 import Admin from './Pages/Dashboards/Admin';
 import Traveller from './Pages/Dashboards/Traveller';
+import KhulnaOverview from './Pages/divisions/khulna/KhulnaOverview';
+import KhulnaMap from './Pages/divisions/khulna/KhulnaMap';
+import KhulnaDetails from './Pages/divisions/khulna/KhulnaDetails';
+import KhulnaExperience from './Pages/divisions/khulna/KhulnaExperience';
+import RajshahiOverview from './Pages/divisions/rajshahi/RajshahiOverview';
+import RajshahiMap from './Pages/divisions/rajshahi/RajshahiMap';
+import RajshahiDetails from './Pages/divisions/rajshahi/RajshahiDetails';
+import RajshahiExperience from './Pages/divisions/rajshahi/RajshahiExperience';
+import RangpurOverview from './Pages/divisions/rangpur/RangpurOverview';
+import RangpurMap from './Pages/divisions/rangpur/RangpurMap';
+import RangpurDetails from './Pages/divisions/rangpur/RangpurDetails';
+import RangpurExperience from './Pages/divisions/rangpur/RangpurExperience';
+
+// Divisions built as four page parts each (Overview, Map, Details, Experience).
+const DIVISION_PAGES = {
+  khulna: [KhulnaOverview, KhulnaMap, KhulnaDetails, KhulnaExperience],
+  rajshahi: [RajshahiOverview, RajshahiMap, RajshahiDetails, RajshahiExperience],
+  rangpur: [RangpurOverview, RangpurMap, RangpurDetails, RangpurExperience],
+};
 
 function App() {
   const [page, setPage] = useState('home');
@@ -82,7 +101,15 @@ function App() {
 
       {page === 'divisions' && <Divisions onNavigate={navigate} />}
 
-      {page === 'detail' && (
+      {page === 'detail' && DIVISION_PAGES[selectedDivision] && (
+        <main key={selectedDivision} className="pt-16 animate-fadeIn">
+          {DIVISION_PAGES[selectedDivision].map((Part, i) => (
+            <Part key={i} />
+          ))}
+        </main>
+      )}
+
+      {page === 'detail' && !DIVISION_PAGES[selectedDivision] && (
         <DivisionDetail
           divisionId={selectedDivision}
           onNavigate={navigate}
