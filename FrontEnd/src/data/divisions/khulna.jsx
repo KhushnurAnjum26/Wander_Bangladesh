@@ -24,8 +24,8 @@ export const khulna = {
     {
       name: "Sundarbans",
       description: "The world's largest mangrove forest, home to Bengal tigers, spotted deer, dolphins and tidal waterways.",
-      mapX: 118,
-      mapY: 420,
+      mapX: 141,
+      mapY: 406,
       image: sundarbans,
       type: 'nature',
       details: "The Sundarbans is the world's largest mangrove forest and a UNESCO World Heritage Site, home to Bengal tigers, spotted deer, dolphins and many birds. It is explored by boat along tidal channels with a forest guide.\n\nNovember to February is the best time. Most trips start from Mongla, and forest permits and registered boats are required.",
@@ -33,8 +33,8 @@ export const khulna = {
     {
       name: "Sixty Dome Mosque",
       description: "A monumental 15th-century mosque in the UNESCO-listed historic Mosque City of Bagerhat.",
-      mapX: 161,
-      mapY: 370,
+      mapX: 177,
+      mapY: 364,
       image: sixtydome,
       type: 'historical',
       details: "The Sixty Dome Mosque is a 15th-century brick mosque in Bagerhat, part of the UNESCO-listed Mosque City. Its large prayer hall is supported by rows of slender stone pillars and covered by many domes.\n\nVisit between November and February, ideally in the morning. It is in Bagerhat, about an hour from Khulna.",
@@ -42,8 +42,8 @@ export const khulna = {
     {
       name: "Karamjal Wildlife Centre",
       description: "An accessible Sundarbans introduction with forest trails, crocodiles and deer observation areas.",
-      mapX: 150,
-      mapY: 392,
+      mapX: 168,
+      mapY: 383,
       image: images.forest,
       type: 'nature',
       details: "Karamjal is an easy introduction to the Sundarbans, with forest walkways, a crocodile breeding centre and deer observation areas.\n\nNovember to February is the best time. It is about 12 km from Mongla by boat, around 45 minutes. Forest permits and registered boats are required.",
@@ -51,8 +51,8 @@ export const khulna = {
     {
       name: "Hiron Point",
       description: "A Sundarbans stop known for spotted deer, tidal creeks and wide mangrove views.",
-      mapX: 136,
-      mapY: 444,
+      mapX: 154,
+      mapY: 422,
       image: images.coast,
       type: "nature",
       details: "Hiron Point, also called Nilkamal, is a stop deep in the Sundarbans, known for spotted deer, tidal creeks and wide mangrove views. It is reached by boat as part of a Sundarbans trip.\n\nMost trips start from Mongla. Forest permits and registered boats are required, and November to February is the best time.",
