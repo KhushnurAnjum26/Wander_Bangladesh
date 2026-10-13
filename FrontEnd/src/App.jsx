@@ -1,11 +1,11 @@
 
 import { useState } from 'react';
 import Navbar from './components/Navbar';
-import Home from './Pages/DivisionDetails/Home';
-import Divisions from './Pages/DivisionDetails/Divisions';
-import DivisionDetail from './Pages/DivisionDetails/DivisionDetail';
-import Dashboard from './Pages/DivisionDetails/Dashboard';
+import Home from './Pages/Home';
+import Divisions from './Pages/Divisions';
+import DivisionDetail from './Pages/DivisionDetails';
 import Admin from './Pages/Dashboards/Admin';
+import Traveller from './Pages/Dashboards/Traveller';
 
 function App() {
   const [page, setPage] = useState('home');
@@ -13,9 +13,9 @@ function App() {
 
   // Temporary frontend user for testing
   const [currentUser] = useState({
-  name: 'Agency User',
-  role: 'agency',
-});
+    name: 'Agency User',
+    role: 'agency',
+  });
 
   const navigate = (target, divisionId) => {
     if (divisionId) {
@@ -26,15 +26,30 @@ function App() {
   };
 
   const renderDashboard = () => {
-    switch (currentUser?.role) {
+    switch (currentUser.role) {
       case 'admin':
         return <Admin onExit={() => navigate('home')} />;
 
-      case 'agency':
-        return <Agency onExit={() => navigate('home')} />;
-
       case 'traveller':
         return <Traveller onExit={() => navigate('home')} />;
+
+      case 'agency':
+        return (
+          <div className="min-h-screen bg-[#f5ede0] p-8 text-center">
+            <h2 className="text-2xl font-semibold">
+              Agency Dashboard
+            </h2>
+            <p className="mt-3">
+              The agency dashboard component needs to be connected here.
+            </p>
+            <button
+              onClick={() => navigate('home')}
+              className="mt-5 rounded-lg bg-[#1e3d28] px-5 py-3 text-white"
+            >
+              Back to Home
+            </button>
+          </div>
+        );
 
       default:
         return (

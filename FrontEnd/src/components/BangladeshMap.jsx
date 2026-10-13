@@ -27,13 +27,15 @@ const DIVISIONS = Object.keys(DIVISION_STYLE).map((id) => ({
   ...DIVISION_SHAPES[id]
 }));
 
+
 function BangladeshMap({
   highlightedDivision,
   spots = [],
   onDivisionClick,
   interactive = true,
-  compact = false
+  compact = false,
 }) {
+
   const [hovered, setHovered] = useState(null);
   const [tooltip, setTooltip] = useState(null);
 
@@ -276,7 +278,7 @@ function BangladeshMap({
         <div className="mt-3 flex flex-wrap gap-2">
           {spots.map((s, i) => (
             <span key={i} className="flex items-center gap-1.5 text-xs text-[#4a3a28]">
-              <span className="w-2 h-2 rounded-full bg-[#c4602a] flex-shrink-0" />
+              <span className="w-2 h-2 rounded-full bg-earth shrink-0" />
               {s.name}
             </span>
           ))}
