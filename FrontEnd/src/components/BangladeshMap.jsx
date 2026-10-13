@@ -7,7 +7,7 @@ import {
   SEA_PATH,
   RIVER_PATHS,
   MAP_ANCHORS
-} from "../data/bangladeshMapGeo";
+} from "../data/BangladeshMapGeo";
 
 // Colourful map of Bangladesh drawn from real division boundaries.
 const DIVISION_STYLE = {
@@ -27,6 +27,7 @@ const DIVISIONS = Object.keys(DIVISION_STYLE).map((id) => ({
   ...DIVISION_SHAPES[id]
 }));
 
+
 function BangladeshMap({
   highlightedDivision,
   spots = [],
@@ -34,6 +35,7 @@ function BangladeshMap({
   interactive = true,
   compact = false,
 }) {
+
   const [hovered, setHovered] = useState(null);
   const [tooltip, setTooltip] = useState(null);
 

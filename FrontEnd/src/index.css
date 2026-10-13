@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&family=Outfit:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
@@ -29,14 +30,27 @@ html {
 }
 
 body {
+  margin: 0;
   font-family: var(--font-body);
   background-color: #f5ede0;
   color: #2a1a0e;
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4 {
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-display);
+}
+
+p {
+  margin: 0;
 }
 
 ::-webkit-scrollbar {
@@ -71,6 +85,7 @@ h1, h2, h3, h4 {
     opacity: 0;
     transform: translateY(24px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -78,8 +93,13 @@ h1, h2, h3, h4 {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .animate-fadeInUp {

@@ -3,7 +3,7 @@ import { divisions } from "../data/bangladesh";
 import BangladeshMap from "../components/BangladeshMap";
 
 // Only these divisions have a detail page. Others belong to teammates (coming soon).
-const ACTIVE_NAMES = ["dhaka", "chattogram", "chittagong", "sylhet"];
+const ACTIVE_NAMES = ["dhaka", "chattogram","sylhet", "mymensingh","barishal"];
 const isActiveDivision = (id) => {
   const d = divisions.find((x) => x.id === id);
   return !!d && ACTIVE_NAMES.some((n) => d.name.toLowerCase().includes(n));
