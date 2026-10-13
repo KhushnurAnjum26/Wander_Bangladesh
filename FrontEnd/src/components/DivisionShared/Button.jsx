@@ -15,8 +15,8 @@ const VARIANTS = {
 };
 
 const SIZES = {
-  sm: 'px-5 py-2 text-lg font-medium',
-  md: 'px-8 py-3.5 text-lg font-semibold',
+  sm: 'px-5 py-2 text-sm font-medium',
+  md: 'px-7 py-3 text-base font-semibold',
   lg: 'px-10 py-4 font-semibold',
 };
 

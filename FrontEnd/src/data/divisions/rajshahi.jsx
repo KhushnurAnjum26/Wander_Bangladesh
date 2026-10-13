@@ -11,7 +11,7 @@ export const rajshahi = {
   tagline: 'Ancient Universities, Temple Cities & Mango Country',
   description: "Rajshahi Division holds some of Bangladesh's richest archaeological and architectural treasures. Paharpur's Buddhist monastery, Puthia's temple complex, the Varendra Museum and the mango orchards along the Padma tell stories stretching back more than a thousand years.",
   // Images & look
-  heroImage: images.heritage,
+  heroImage: puthia,
   cardImage: images.countryside,
   mapColor: '#4a2865',
   tags: ['Archaeology', 'Temples', 'Mangoes', 'Silk', 'History'],
@@ -25,8 +25,8 @@ export const rajshahi = {
     {
       name: "Puthia Temple Complex",
       description: "One of Bangladesh's finest groups of historic Hindu temples, with tall spired temples and detailed terracotta carvings beside a calm pond.",
-      mapX: 90,
-      mapY: 222,
+      mapX: 128,
+      mapY: 246,
       image: puthia,
       type: 'cultural',
       details: "The Puthia Temple Complex is one of the finest groups of historic Hindu temples in Bangladesh, built around the old Puthia Raj estate. The temples are known for their detailed terracotta carvings, and the tall spired temples reflected in the pond beside them are among the most photographed sights in the region.\n\nWinter, from November to February, is the best time for a slow walk around the complex. It is about 32 km from Rajshahi city, roughly 45 minutes by bus on the Dhaka–Rajshahi highway.",
@@ -34,8 +34,8 @@ export const rajshahi = {
     {
       name: "Varendra Research Museum",
       description: "One of the country's oldest museums, known for sculptures, inscriptions, manuscripts and archaeological finds from northern Bengal.",
-      mapX: 68,
-      mapY: 214,
+      mapX: 104,
+      mapY: 229,
       image: varendra,
       type: 'historical',
       details: "The Varendra Research Museum in Rajshahi city is one of the oldest museums in Bangladesh. It keeps stone and metal sculptures, inscriptions, coins, manuscripts and archaeological finds from the Varendra region of northern Bengal, in a white building with arched windows and a green garden.\n\nIt fits well into a day in Rajshahi city, along with the Padma riverbank. Opening days and hours can change, so check locally before you go.",
@@ -43,8 +43,8 @@ export const rajshahi = {
     {
       name: "Padma River Bank",
       description: "A popular place in Rajshahi city to enjoy beautiful sunsets, fresh air and peaceful riverside views.",
-      mapX: 60,
-      mapY: 224,
+      mapX: 92,
+      mapY: 238,
       image: padmabank,
       type: 'nature',
       details: "The Padma River bank in Rajshahi city is a popular place to enjoy beautiful sunsets, fresh air and peaceful riverside views. Families and friends gather here in the evening to walk along the water and watch the sun go down over the wide river.\n\nLate afternoon to sunset is the best time, and October to March is the most comfortable season. It is in the city itself, so it is easy to reach by rickshaw.",
@@ -52,8 +52,8 @@ export const rajshahi = {
     {
       name: "Shaheed A. H. M. Kamaruzzaman Central Park & Zoo",
       description: "Recreation and nature: a popular park with green spaces, trees and a zoo, great for families and friends to relax together.",
-      mapX: 78,
-      mapY: 207,
+      mapX: 92,
+      mapY: 221,
       image: kamaruzzaman,
       type: 'nature',
       details: "Shaheed A. H. M. Kamaruzzaman Central Park and Zoo in Rajshahi city is a popular place for recreation and nature. The park has green open spaces, shady trees and a zoo, and it is a great place for families and friends to relax and spend time together.\n\nThe cooler months, from October to March, are the most pleasant, and mornings or late afternoons are best for walking. Entry rules and ticket prices can change, so check locally.",

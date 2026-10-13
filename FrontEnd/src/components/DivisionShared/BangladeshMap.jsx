@@ -1,207 +1,303 @@
-import { useState } from 'react';
-const DIVISIONS = [
-    {
-        id: 'rangpur',
-        name: 'Rangpur',
-        path: 'M166.7,128.0L165.9,131.2L163.5,132.2L160.9,137.8L161.7,142.5L161.2,144.8L156.5,152.5L142.5,151.9L130.1,148.3L124.7,151.3L122.2,148.8L120.1,144.4L119.9,141.1L116.6,140.2L96.1,140.2L94.2,139.9L92.4,138.2L89.9,137.8L87.5,135.0L86.8,132.5L86.0,131.9L87.3,128.2L87.2,126.4L83.8,122.6L81.4,121.6L81.4,123.2L78.5,123.5L75.3,126.0L69.5,123.2L64.4,122.7L60.8,119.0L60.0,117.3L55.9,114.7L55.6,109.3L53.4,107.0L47.6,103.1L42.8,97.5L40.2,96.2L32.2,98.8L29.0,93.9L28.0,87.1L29.0,85.8L32.1,77.9L34.1,76.4L34.5,73.8L33.2,71.7L34.5,67.9L39.5,63.4L48.1,60.3L48.8,59.0L48.9,54.5L56.5,47.5L57.9,48.3L61.8,48.3L61.6,46.1L58.9,39.5L50.3,36.8L49.4,37.5L48.8,40.0L47.8,39.7L47.2,38.5L47.1,37.1L51.8,25.7L52.8,24.7L53.6,25.2L53.8,30.3L54.9,31.5L59.0,32.9L64.1,37.6L69.3,38.8L70.9,41.5L74.5,42.9L74.0,44.3L75.5,45.4L75.4,47.0L78.8,49.4L79.0,50.5L78.2,52.1L73.7,55.0L75.1,56.0L81.8,53.6L84.7,54.7L86.6,58.7L88.0,59.3L89.3,58.9L90.5,56.0L92.1,54.9L94.2,55.3L97.7,58.8L100.0,59.5L103.6,58.6L105.2,57.5L104.7,55.9L102.3,55.0L102.6,53.2L100.5,53.6L99.3,50.4L95.0,48.6L93.3,46.9L93.3,45.4L95.0,42.3L97.3,40.7L98.0,41.0L102.9,45.0L106.2,46.4L106.4,48.8L110.2,50.5L110.3,51.7L109.6,52.1L107.5,51.7L107.6,54.0L110.3,59.5L110.9,64.7L112.5,67.4L119.0,70.5L121.0,74.0L123.8,75.3L127.2,78.5L130.1,79.4L133.3,77.8L134.9,79.7L140.9,79.2L144.3,82.9L145.9,81.8L146.7,77.2L150.2,74.3L150.9,72.8L150.3,71.7L147.4,71.5L147.4,70.5L150.3,68.6L147.6,67.8L147.0,66.7L148.9,64.3L151.2,64.8L150.5,60.7L151.1,60.0L154.2,59.7L154.5,65.0L158.5,65.7L159.5,66.4L162.0,71.8L162.5,76.3L165.2,80.2L167.1,79.4L168.3,80.9L168.0,82.1L165.4,83.6L168.8,85.1L168.4,87.1L165.0,93.2L164.7,95.3L166.1,103.1L168.8,111.0L167.9,123.7Z',
-        labelX: 103, labelY: 97,
-        color: '#2d5a3c',
-    },
-    {
-        id: 'rajshahi',
-        name: 'Rajshahi',
-        path: 'M80.5,237.1L82.0,234.2L81.0,228.7L79.2,226.2L76.5,224.6L74.8,224.2L72.8,228.0L60.0,226.2L54.1,221.5L33.1,210.5L30.8,210.0L28.9,206.9L28.5,201.3L26.6,198.4L23.7,197.4L24.2,194.7L25.9,191.6L26.3,187.8L28.2,187.3L29.1,184.2L30.6,183.8L33.3,180.0L31.2,173.7L35.2,171.6L38.2,171.2L40.6,173.5L41.4,176.8L47.1,177.9L52.1,171.2L53.3,166.8L55.1,164.5L56.7,156.2L56.5,151.3L57.3,149.8L60.0,149.4L66.8,151.5L69.9,149.6L72.7,149.6L80.0,151.9L84.7,152.4L87.4,149.2L93.9,151.6L95.9,151.8L94.8,149.9L96.2,149.6L96.3,146.4L100.6,142.4L100.0,140.0L116.6,140.2L119.9,141.1L120.1,144.4L122.2,148.8L124.7,151.3L130.1,148.3L142.5,151.9L150.4,151.9L156.5,152.5L154.7,161.8L154.3,169.1L156.3,179.3L158.1,183.2L164.1,187.5L165.7,190.9L164.7,197.7L165.1,200.5L163.3,204.7L163.4,209.1L161.9,222.2L162.5,229.7L166.6,233.9L166.7,236.3L168.1,236.7L168.4,241.9L167.6,243.3L167.4,246.4L166.0,248.8L158.2,255.5L156.8,260.1L157.8,266.4L151.6,267.4L146.5,269.9L144.4,269.5L139.4,265.5L127.7,259.8L123.6,259.2L116.9,259.9L114.8,259.5L111.3,257.6L107.5,254.0L107.3,249.6L104.6,245.0L99.5,239.6L96.5,238.7L94.6,240.5L88.0,243.3L82.7,240.8Z',
-        labelX: 106, labelY: 200,
-        color: '#4a2865',
-    },
-    {
-        id: 'dhaka',
-        name: 'Dhaka',
-        path: 'M165.9,131.2L165.9,136.7L167.5,141.5L174.7,140.5L192.4,147.9L205.0,150.7L211.2,153.3L214.0,153.4L222.1,151.7L228.7,152.3L231.9,151.4L238.6,153.1L241.0,151.6L242.3,151.8L245.5,153.7L247.8,154.0L256.8,152.8L256.5,156.5L257.7,161.5L255.0,168.3L260.2,176.8L262.5,177.9L272.0,176.9L273.6,182.6L273.3,191.1L273.9,192.6L278.2,192.7L279.5,193.8L279.8,195.5L278.8,198.7L276.7,200.1L276.7,200.7L278.7,203.4L280.5,204.6L277.0,211.1L277.6,212.2L280.1,213.1L280.4,216.2L279.1,217.2L281.7,220.0L281.5,221.4L280.1,222.5L281.1,224.3L276.7,226.7L274.3,231.3L269.6,233.1L269.5,235.7L267.3,234.7L264.6,238.3L262.3,239.2L262.6,241.4L264.0,243.4L263.4,244.7L265.0,245.6L264.4,247.4L260.6,250.9L259.8,256.8L258.2,260.4L255.1,264.7L253.3,266.0L250.0,264.2L247.8,265.0L244.8,265.0L242.8,266.5L242.8,271.0L239.7,278.0L242.1,281.0L240.8,283.4L243.6,286.6L241.2,287.7L241.5,289.5L238.2,292.6L236.0,292.9L238.2,294.9L237.6,296.7L235.3,295.8L230.3,297.8L229.1,294.4L229.4,291.9L230.7,289.9L232.7,288.9L232.2,288.3L231.6,288.9L231.0,288.1L229.6,288.3L226.7,289.5L227.2,290.7L225.8,291.8L223.2,291.8L220.1,290.1L221.9,292.4L227.5,293.2L228.1,293.9L228.3,301.7L226.2,307.4L223.5,306.2L207.8,303.2L202.0,300.3L202.7,302.2L213.1,308.5L216.3,312.5L222.3,314.7L227.5,315.3L230.5,319.4L231.2,324.0L230.2,322.6L229.5,321.8L229.9,330.8L227.2,334.4L226.1,333.4L227.2,332.0L226.7,331.4L223.8,334.0L218.3,334.7L217.5,337.7L215.8,338.8L210.8,335.4L208.2,334.8L206.1,335.8L205.4,337.3L208.1,337.7L207.9,339.6L205.9,342.6L204.0,343.3L201.9,342.2L200.3,340.2L198.9,335.2L197.4,334.8L193.5,335.5L192.1,338.5L187.0,343.2L185.5,346.2L181.6,350.9L176.3,352.3L173.0,350.6L168.6,347.0L167.5,343.9L162.6,338.6L159.8,333.2L157.8,332.5L156.8,331.4L156.5,329.0L158.9,330.6L160.7,327.6L162.5,326.1L160.9,324.8L158.6,326.2L157.6,326.0L156.4,324.5L156.5,321.2L152.2,320.0L155.4,315.8L153.0,315.8L151.0,313.5L149.8,310.2L149.9,307.4L152.1,308.6L149.9,299.7L145.9,296.9L143.5,296.6L142.3,298.5L141.8,296.1L144.1,294.1L142.8,293.3L135.7,282.1L130.2,282.4L126.9,278.1L126.7,277.3L130.8,266.5L129.6,260.6L141.2,266.6L144.4,269.5L146.5,269.9L151.6,267.4L157.8,266.4L156.8,260.1L158.2,255.5L166.0,248.8L167.4,246.4L167.6,243.3L168.4,241.9L168.4,237.5L168.1,236.7L166.7,236.3L166.6,233.9L162.5,229.7L161.9,222.2L163.4,209.1L163.3,204.7L165.1,200.5L164.7,197.7L165.7,190.9L164.1,187.5L158.1,183.2L156.3,179.3L154.3,169.1L154.7,161.8L156.5,152.5L161.2,144.8L161.7,142.5L160.9,137.8L163.5,132.2ZM223.9,312.9L222.5,313.6L219.5,312.1L216.1,308.2L216.4,307.4L218.5,307.4L225.2,310.5L228.2,312.8L228.9,314.7L224.4,311.9Z',
-        labelX: 205, labelY: 238,
-        color: '#6b3825',
-    },
-    {
-        id: 'sylhet',
-        name: 'Sylhet',
-        path: 'M354.0,206.4L350.9,208.8L350.6,218.3L349.1,220.4L344.7,221.5L338.0,220.9L339.8,226.1L335.7,223.6L334.0,224.2L334.5,231.0L332.2,239.9L331.2,240.6L329.5,240.2L327.1,237.7L326.6,234.4L320.6,233.3L319.8,234.4L320.6,239.4L319.7,240.7L316.7,241.0L315.3,240.1L313.2,235.2L312.3,234.9L311.1,241.5L309.7,244.5L306.7,245.9L303.4,246.3L294.4,244.7L291.0,245.0L290.1,247.2L289.1,254.1L288.2,254.8L286.7,254.4L287.0,251.6L285.5,248.7L283.9,240.2L284.5,238.9L287.4,238.0L284.5,236.4L288.2,233.6L288.6,232.7L286.0,232.6L282.9,235.1L280.8,234.7L274.3,231.3L276.7,226.7L281.1,224.3L280.1,222.5L281.9,220.6L279.1,217.2L280.4,216.2L280.1,213.1L277.0,211.5L280.5,204.6L278.7,203.4L276.7,200.7L276.7,200.1L278.6,199.1L278.9,197.6L279.8,194.9L279.0,193.1L273.9,192.6L273.3,191.1L273.6,182.6L272.0,176.9L262.5,177.9L260.2,176.8L255.0,168.3L257.7,161.5L256.5,156.5L256.8,152.8L272.8,149.7L278.3,149.7L280.9,148.8L284.7,150.8L296.5,154.4L300.5,154.6L303.9,153.7L305.9,152.3L307.3,152.4L309.7,155.2L313.1,155.6L315.0,155.3L316.2,153.1L318.9,153.8L320.4,151.8L325.5,152.0L334.0,150.9L338.5,151.6L342.1,150.4L344.7,150.6L349.4,152.0L351.3,154.2L355.8,154.9L360.7,159.0L366.3,159.9L368.3,162.2L372.5,164.4L373.0,166.8L375.0,167.5L378.3,170.1L378.0,171.1L380.7,172.7L381.6,175.6L380.2,178.3L372.5,180.7L365.2,175.9L362.2,174.9L359.8,175.9L359.4,177.4L360.8,181.7L360.7,185.8L356.6,197.2L355.1,204.9Z',
-        labelX: 314, labelY: 191,
-        color: '#1a4a3c',
-    },
-    {
-        id: 'khulna',
-        name: 'Khulna',
-        path: 'M106.8,417.0L108.3,415.1L108.1,413.0L107.0,409.8L102.7,403.4L103.9,402.6L102.1,399.2L101.2,394.5L102.2,391.0L101.9,388.9L99.7,382.2L96.2,380.5L98.0,379.3L98.5,377.2L94.7,363.6L97.0,360.0L97.6,354.3L93.5,351.5L89.1,343.1L90.1,334.5L91.2,332.3L98.4,325.0L98.8,323.3L87.8,320.2L84.1,321.7L78.8,320.0L77.7,319.0L76.9,315.4L79.5,310.6L83.6,298.3L82.5,297.5L79.6,300.1L78.4,297.8L73.8,294.3L70.7,289.6L67.7,289.3L66.9,288.5L67.3,286.1L65.3,285.3L66.9,276.3L66.2,273.4L68.2,269.6L68.2,266.4L69.5,265.3L74.2,265.1L79.1,260.2L79.1,256.8L78.1,254.1L80.0,250.4L78.1,249.9L75.9,246.5L76.6,242.9L76.2,240.2L77.5,238.4L80.5,237.1L82.7,240.8L88.0,243.3L94.6,240.5L96.5,238.7L98.8,239.1L104.9,245.4L107.6,250.4L107.5,254.0L111.3,257.6L114.8,259.5L116.9,259.9L123.6,259.2L129.6,260.6L130.8,266.5L126.7,277.3L126.9,278.1L130.2,282.4L135.7,282.1L142.8,293.3L144.1,294.1L141.8,296.1L142.3,298.5L143.5,296.6L145.9,296.9L149.9,299.7L152.1,308.6L149.9,307.4L149.8,310.2L151.0,313.5L153.0,315.8L155.4,315.8L152.2,320.0L156.5,321.2L156.4,324.5L157.6,326.0L158.6,326.2L160.9,324.8L162.5,326.1L160.7,327.6L158.9,330.6L156.5,329.0L156.8,331.4L157.8,332.5L159.8,333.2L162.6,338.6L167.5,343.9L168.6,347.0L173.0,350.6L176.3,352.3L179.0,356.1L176.6,357.2L175.9,358.5L176.6,359.6L175.2,360.6L175.0,362.3L176.3,363.8L173.5,365.8L172.8,367.1L176.4,368.5L176.1,369.9L174.6,369.7L174.1,370.4L175.5,371.9L176.4,374.6L178.5,376.6L178.8,379.8L177.7,383.2L179.4,384.7L180.4,387.3L176.7,391.3L175.6,394.1L171.8,391.8L172.7,396.6L172.4,398.4L169.1,404.9L170.9,409.9L171.8,415.8L171.7,420.3L169.7,422.2L165.8,421.7L165.8,422.3L168.9,424.0L169.8,425.4L169.7,430.7L173.0,437.0L172.4,438.4L170.1,439.0L167.1,442.2L164.9,443.3L164.1,443.4L163.3,441.7L160.1,443.3L158.7,443.2L154.9,441.5L154.2,438.9L155.1,437.4L153.8,434.9L151.5,439.7L154.0,443.5L158.1,447.1L157.2,448.8L155.5,450.1L152.5,448.9L149.6,449.3L150.5,452.8L149.0,454.4L147.3,453.3L145.0,449.8L144.2,444.7L144.4,442.7L147.2,438.4L147.7,425.6L150.5,418.4L147.4,410.6L150.5,405.9L150.8,402.2L152.1,399.0L148.5,404.1L148.9,406.9L145.9,410.4L148.1,415.6L148.3,418.4L146.1,428.8L144.6,429.7L144.0,428.3L143.9,424.4L145.0,420.5L141.4,411.9L141.4,404.4L140.7,402.6L140.1,402.6L139.4,408.3L140.1,419.4L140.7,419.4L141.5,416.4L143.5,421.2L142.7,424.7L141.2,425.6L143.7,431.6L143.0,436.3L139.2,440.6L139.3,447.4L137.4,450.4L134.5,453.0L133.6,453.1L131.6,450.7L131.3,443.3L133.0,436.9L130.8,430.7L130.2,430.7L129.7,432.1L130.8,435.5L130.5,437.7L128.3,440.1L126.1,445.0L124.7,443.8L125.6,449.5L123.9,454.6L124.1,455.6L125.8,456.4L123.5,458.5L120.3,459.4L118.8,458.5L118.4,456.9L119.7,453.7L117.0,444.8L115.9,444.9L114.4,446.9L111.6,445.7L110.4,444.4L108.4,437.3L109.3,428.3L106.6,422.6ZM111.3,447.4L113.1,448.7L113.6,451.1L112.6,452.6L110.2,451.3L106.1,446.4L107.1,443.8L106.1,437.9L105.7,435.6L107.2,436.2L109.4,446.4Z',
-        labelX: 125, labelY: 348,
-        color: '#4a3a18',
-    },
-    {
-        id: 'barishal',
-        name: 'Barishal',
-        path: 'M218.0,336.7L219.5,341.4L222.6,346.1L222.8,348.2L225.2,350.0L223.6,351.5L220.1,351.1L218.6,353.1L216.9,358.4L214.6,358.9L215.9,360.1L215.6,361.2L214.5,361.7L213.5,360.7L211.8,361.8L216.8,364.3L217.6,362.7L218.9,362.9L221.2,365.4L223.0,374.9L222.0,376.6L218.7,377.7L217.4,385.2L219.0,382.8L218.8,380.2L219.8,378.1L222.4,377.1L226.8,379.2L230.5,387.7L228.9,387.0L228.9,389.0L231.5,395.4L231.1,400.8L228.5,407.5L226.6,410.6L222.1,412.9L218.8,420.3L217.1,421.7L213.0,419.4L215.7,411.0L214.6,407.3L214.9,403.5L213.5,403.2L213.3,410.1L214.8,411.2L215.0,412.8L213.4,415.8L212.4,415.8L211.6,420.5L208.6,425.0L206.7,429.7L204.6,439.6L198.3,445.4L195.2,445.4L189.4,443.1L189.1,441.7L189.6,440.6L191.0,440.9L190.4,439.6L192.1,436.9L192.1,434.3L189.9,438.9L187.4,441.1L185.9,441.3L184.0,440.3L184.7,433.2L185.6,431.3L188.2,429.4L190.5,423.6L195.1,418.4L197.6,418.8L199.3,417.6L201.1,413.3L200.9,411.0L198.5,416.7L193.9,418.6L189.1,423.9L186.2,429.3L184.3,429.4L181.7,428.3L182.9,424.7L184.8,423.1L185.4,416.9L188.3,414.0L186.2,414.7L184.0,420.5L180.6,424.4L180.6,429.5L179.4,430.5L176.8,428.5L175.2,422.9L174.1,410.7L172.4,407.3L172.1,404.3L174.0,399.2L182.8,385.5L180.4,387.3L179.4,384.7L177.8,383.6L178.8,377.9L178.2,376.0L176.4,374.6L175.5,371.9L174.1,370.4L174.6,369.7L176.1,369.9L176.4,368.5L172.7,366.7L176.3,363.8L174.9,361.2L176.6,359.6L175.9,358.5L176.6,357.2L179.0,356.1L176.3,352.3L181.6,350.9L185.5,346.2L187.0,343.2L192.1,338.5L193.5,335.5L197.4,334.8L198.9,335.2L200.3,340.2L201.9,342.2L204.0,343.3L205.9,342.6L208.1,339.2L207.4,337.2L205.4,337.3L207.0,335.3L208.2,334.8L210.8,335.4L215.8,338.8ZM229.5,429.5L230.5,433.7L229.3,434.0L228.5,436.0L227.2,435.5L225.3,439.2L223.7,440.4L222.3,440.3L222.3,439.7L224.5,439.1L222.8,437.2L223.8,433.7ZM208.6,433.7L211.7,428.8L213.5,428.3L209.3,440.5L207.5,441.7L207.5,437.7ZM213.0,424.1L212.5,426.3L209.2,430.7L210.7,426.3L211.9,424.3ZM216.8,424.7L219.9,428.0L220.9,430.3L220.1,433.1L215.2,437.0L214.2,436.4L213.5,433.7L215.0,430.4L215.2,425.0L216.3,424.1ZM225.6,422.9L225.1,422.3L220.7,425.3L221.3,421.3L226.8,416.3L227.8,416.3L229.4,414.4L231.1,414.0L229.5,419.4L228.9,416.9L226.8,426.2L225.1,428.3L222.7,428.4L222.3,426.2ZM257.3,410.4L258.1,409.8L258.5,411.0L257.9,417.7L256.3,418.1L255.5,416.8L256.2,411.7L256.8,409.8ZM260.1,412.1L260.6,405.7L261.8,406.2L261.8,407.8L261.0,411.3ZM258.2,408.5L257.0,408.0L258.5,404.1L258.8,400.1L260.1,396.6L261.2,398.6L261.6,401.9L261.2,403.8ZM231.6,391.2L230.1,390.8L230.1,389.2L231.2,389.1L232.7,390.6L234.7,395.2L234.9,397.2L234.0,395.5L233.8,394.8L233.2,396.4L233.7,399.9L233.2,401.4L232.7,397.8L233.2,397.8ZM245.2,385.1L250.4,390.4L248.8,398.7L248.9,412.8L248.2,415.0L244.0,421.7L242.6,422.9L242.0,421.7L239.4,424.1L237.3,427.7L233.8,428.8L233.2,426.9L236.5,419.4L232.1,425.9L230.8,426.2L230.6,422.0L232.7,417.6L231.8,415.7L236.5,402.0L237.0,395.4L236.2,391.1L236.5,389.4L235.6,387.8L234.7,382.5L232.5,379.3L226.7,375.7L226.5,369.4L228.3,362.2L229.7,360.6L234.0,359.6L236.7,367.7L241.8,376.2L243.4,383.1ZM233.6,354.2L236.3,357.7L229.3,357.3L224.5,361.2L224.8,364.7L223.7,366.2L220.6,362.0L218.5,361.3L219.1,360.3L219.1,355.5L219.9,352.8L225.0,352.6L225.6,351.4L229.4,351.3ZM235.4,345.1L232.7,345.1L235.4,348.2L232.2,347.6L230.6,345.2L228.8,344.5L226.9,345.2L223.9,345.1L222.6,343.1L224.2,340.3L226.9,338.2L228.9,338.0ZM222.8,335.0L223.3,336.5L219.6,340.3L218.5,335.5Z',
-        labelX: 200, labelY: 388,
-        color: '#6b5a2f',
-    },
-    {
-        id: 'chattogram',
-        name: 'Chattogram',
-        path: 'M393.3,488.7L392.7,491.0L391.1,492.6L389.3,493.9L387.6,494.0L386.7,492.9L384.0,484.1L381.9,483.6L379.2,484.2L374.0,483.2L372.5,482.0L371.4,477.6L370.4,476.2L367.8,475.3L364.8,479.0L360.9,479.2L360.0,480.9L358.9,484.6L356.3,489.5L356.8,494.6L356.0,500.3L359.9,507.5L363.2,510.3L362.6,517.3L362.9,520.8L363.8,524.0L366.4,528.5L368.7,535.9L368.7,537.8L367.5,538.1L366.1,536.4L358.8,521.7L357.4,516.0L352.7,511.5L349.7,506.4L346.2,502.1L345.5,498.9L346.2,493.2L345.6,489.5L338.2,477.0L338.0,475.6L339.1,476.1L340.6,472.9L341.9,472.0L343.4,472.6L341.6,470.0L341.2,466.6L343.8,463.3L343.4,461.8L344.9,459.7L344.9,457.3L343.8,456.5L344.3,454.1L344.0,453.4L343.4,454.6L344.0,454.6L342.1,458.9L340.7,458.9L340.1,457.8L340.7,454.0L340.2,454.0L339.8,455.5L339.0,455.4L338.0,453.1L338.2,451.2L341.2,449.3L340.7,448.7L339.4,449.7L338.8,448.9L339.3,447.6L341.2,446.8L341.2,446.2L334.7,447.4L333.9,446.7L334.9,442.7L336.3,442.0L335.7,441.1L336.0,440.3L338.0,439.1L338.0,438.4L336.4,438.9L335.3,440.3L333.9,433.1L332.5,431.0L332.5,427.7L330.4,418.8L330.3,415.8L331.4,416.3L331.0,415.2L330.3,415.3L329.7,418.1L329.2,418.1L327.0,412.6L327.4,409.1L329.2,406.8L329.1,405.3L327.0,403.8L326.7,401.6L331.9,399.0L334.6,391.2L333.0,391.2L332.2,396.6L325.3,402.0L325.5,403.3L328.1,404.9L328.1,406.6L326.7,407.7L325.0,407.5L323.7,405.6L321.5,392.4L316.1,381.6L305.8,367.2L303.3,366.1L300.1,361.9L299.0,361.8L298.7,358.7L301.2,351.4L301.2,349.4L300.6,349.4L299.0,355.6L295.3,358.5L295.2,362.5L292.8,361.0L289.7,360.7L289.7,361.3L291.4,361.8L291.6,362.7L290.8,363.4L285.3,363.9L288.6,365.4L288.4,366.7L287.4,367.5L284.8,367.9L281.6,367.3L281.5,365.4L276.6,364.9L277.9,367.3L277.4,367.9L275.5,367.9L275.5,368.5L282.3,370.6L283.2,372.4L281.3,378.1L278.2,380.9L272.2,382.3L269.1,380.8L263.5,368.7L262.3,369.1L264.6,372.7L265.0,376.9L260.8,378.2L258.4,378.0L257.3,377.2L256.8,376.0L254.7,374.4L252.7,371.2L252.1,368.7L248.9,368.5L247.6,364.9L245.6,363.6L243.7,359.8L239.4,346.2L233.2,337.7L232.4,335.4L233.2,324.5L235.2,319.3L234.9,317.7L235.4,317.7L234.1,314.8L234.0,313.6L234.9,312.9L234.3,312.2L232.3,312.9L230.9,311.1L229.9,306.9L230.0,301.7L230.7,299.7L232.7,298.5L237.3,298.5L239.2,297.5L239.3,294.3L238.2,292.6L241.5,289.5L241.2,287.7L243.6,286.6L240.8,283.4L242.1,281.0L239.7,278.0L242.8,271.0L242.8,266.5L244.8,265.0L247.8,265.0L250.0,264.2L253.3,266.0L255.1,264.7L258.2,260.4L259.8,256.8L260.6,250.9L264.4,247.4L265.0,245.6L263.4,244.7L264.0,243.4L262.6,241.4L262.3,239.2L264.6,238.3L267.3,234.7L269.5,235.7L269.6,233.1L274.3,231.3L280.8,234.7L282.9,235.1L286.0,232.6L287.6,232.2L288.7,232.9L284.5,236.4L287.4,238.0L284.5,238.9L283.9,240.2L285.5,248.7L287.0,251.6L286.7,254.4L285.3,254.2L282.9,255.7L279.3,261.7L279.0,264.1L280.3,267.2L277.6,275.1L273.3,276.4L272.6,278.1L272.9,280.0L275.5,281.2L276.0,282.5L275.3,283.9L273.2,284.0L273.3,287.6L277.6,297.8L280.2,300.1L282.7,308.4L285.0,310.0L283.3,312.3L284.2,314.5L287.1,332.2L289.0,334.8L291.7,335.5L292.0,332.7L290.5,325.3L290.5,321.4L291.8,318.2L293.5,318.1L296.9,322.3L297.2,321.5L297.7,323.7L299.1,324.9L302.3,337.1L303.5,338.0L303.9,341.4L304.9,342.6L308.1,343.7L308.9,345.9L310.2,345.1L311.3,342.9L313.8,343.1L318.6,341.4L321.1,338.9L322.5,335.6L324.1,335.3L325.6,333.2L321.9,320.7L321.5,317.2L323.0,312.9L327.4,306.0L334.4,302.0L337.3,297.8L337.4,294.4L335.3,284.3L335.8,277.9L336.9,277.8L342.3,284.5L343.5,285.1L346.8,283.4L350.7,278.3L354.1,277.1L357.5,284.4L358.8,283.3L359.8,279.2L361.1,278.4L362.7,279.3L362.2,287.8L365.3,297.8L366.1,303.3L368.0,305.8L368.1,308.3L369.9,310.1L369.8,313.5L370.6,316.7L368.6,321.3L368.2,326.1L370.2,338.4L370.8,347.4L372.3,349.7L374.9,350.8L376.1,352.3L377.4,361.7L380.5,364.9L381.7,367.6L382.1,379.4L383.4,383.6L388.2,413.6L388.0,415.8L385.0,417.1L386.8,423.0L389.4,438.2L388.0,451.5L389.4,474.6ZM336.8,449.3L337.1,453.2L340.0,459.0L340.7,462.4L339.6,469.9L338.9,471.4L333.6,471.4L334.0,473.2L332.2,473.6L331.0,472.4L330.4,470.3L331.7,467.8L331.5,461.3L329.8,455.5L330.3,452.3L331.8,449.7L333.8,450.7L334.2,451.9L333.0,455.8L334.3,454.3L334.8,452.2L334.1,448.0L336.8,447.4ZM333.0,440.0L328.6,452.3L327.9,450.8L329.2,443.6L328.6,439.1L329.5,436.4L331.4,434.3ZM273.9,397.1L274.5,399.3L275.7,400.4L276.9,408.4L273.3,415.6L269.5,417.9L267.1,420.5L263.8,420.0L262.4,418.1L266.7,411.6L268.0,394.4L269.4,394.2ZM274.7,384.4L278.0,383.4L278.9,385.1L278.1,387.1L274.8,389.0L272.7,389.1L271.1,388.0L271.9,385.6ZM299.4,377.1L306.5,386.6L307.1,390.3L306.4,393.2L302.6,393.7L300.1,392.2L297.7,388.7L295.9,382.5L297.7,378.0Z',
-        labelX: 322, labelY: 365,
-        color: '#2a5438',
-    },
-];
-const MAP_W = 420;
-const MAP_H = 573;
-function pathBox(d) {
-    const n = d.match(/-?\d+\.?\d*/g).map(Number);
-    let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
-    for (let i = 0; i < n.length; i += 2) {
-        x0 = Math.min(x0, n[i]); x1 = Math.max(x1, n[i]);
-        y0 = Math.min(y0, n[i + 1]); y1 = Math.max(y1, n[i + 1]);
-    }
-    return { x0, y0, x1, y1 };
-}
-// Zoom the map onto the highlighted division (wide frame, so the page has less empty space)
-function getView(id) {
-    const d = DIVISIONS.find((x) => x.id === id);
-    if (!d) return { x: 0, y: 0, w: MAP_W, h: MAP_H };
-    const b = pathBox(d.path);
-    let w = (b.x1 - b.x0) * 1.35, h = (b.y1 - b.y0) * 1.3;
-    const ASPECT = 1.45;
-    if (w / h < ASPECT) w = h * ASPECT; else h = w / ASPECT;
-    return { x: (b.x0 + b.x1) / 2 - w / 2, y: (b.y0 + b.y1) / 2 - h / 2, w, h };
-}
-export default function BangladeshMap({ highlightedDivision, spots = [], onDivisionClick, interactive = true, compact = false, selectedSpot = null, onSpotClick, }) {
-    const view = getView(highlightedDivision);
-    const k = view.w / MAP_W;
-    const pk = Math.max(k, 0.4) * 1.45;
-    const [hovered, setHovered] = useState(null);
-    const [tooltip, setTooltip] = useState(null);
-    const getDivisionColor = (p) => {
-        if (highlightedDivision) {
-            if (p.id === highlightedDivision)
-                return p.color;
-            return '#efe6d3';
-        }
-        if (hovered === p.id)
-            return p.color;
-        return '#e6dcc2';
-    };
-    const getDivisionOpacity = (p) => {
-        if (highlightedDivision) {
-            return p.id === highlightedDivision ? 1 : 0.9;
-        }
-        return hovered === p.id ? 1 : 0.75;
-    };
-    return (<div className={`relative select-none ${compact ? 'w-full' : 'w-full'}`}>
-      <svg viewBox={`${view.x} ${view.y} ${view.w} ${view.h}`} className="mx-auto block h-auto w-full max-h-[calc(100vh-17rem)]" style={{ borderRadius: 18, overflow: 'hidden' }}>
-        {/* Background */}
-        <rect x={-400} y={-400} width={MAP_W + 800} height={MAP_H + 800} fill="url(#mapSea)"/>
+import { useState } from "react";
+import {
+  MAP_WIDTH,
+  MAP_HEIGHT,
+  DIVISION_SHAPES,
+  INTERNAL_BORDERS,
+  SEA_PATH,
+  RIVER_PATHS,
+  MAP_ANCHORS
+} from "../../data/BangladeshMapGeo";
 
-        {/* Subtle grid texture */}
+// Colourful map of Bangladesh drawn from real division boundaries.
+const DIVISION_STYLE = {
+  rangpur: { name: "Rangpur", color: "#b7d36a", textColor: "#3a4a14" },
+  mymensingh: { name: "Mymensingh", color: "#2f7f72", textColor: "#f5ede0" },
+  sylhet: { name: "Sylhet", color: "#ee9d92", textColor: "#5a2018" },
+  rajshahi: { name: "Rajshahi", color: "#b6b0d6", textColor: "#3a2f66" },
+  dhaka: { name: "Dhaka", color: "#e1e47c", textColor: "#4a4a10" },
+  khulna: { name: "Khulna", color: "#dca5c8", textColor: "#5e2450" },
+  barishal: { name: "Barishal", color: "#8fd0a8", textColor: "#1c5a36" },
+  chattogram: { name: "Chattogram", color: "#dcb96c", textColor: "#5a3e0a" }
+};
+
+const DIVISIONS = Object.keys(DIVISION_STYLE).map((id) => ({
+  id,
+  ...DIVISION_STYLE[id],
+  ...DIVISION_SHAPES[id]
+}));
+
+
+function BangladeshMap({
+  highlightedDivision,
+  spots = [],
+  onDivisionClick,
+  interactive = true,
+  compact = false,
+  selectedSpot,
+  onSpotClick,
+}) {
+
+  const [hovered, setHovered] = useState(null);
+  const [tooltip, setTooltip] = useState(null);
+
+  const getOpacity = (p) => {
+    if (highlightedDivision) return p.id === highlightedDivision ? 1 : 0.35;
+    if (hovered) return hovered === p.id ? 1 : 0.8;
+    return 1;
+  };
+
+  const activeId = highlightedDivision || hovered;
+  const activeDivision = DIVISIONS.find((d) => d.id === activeId);
+
+  // Draw the active division last so it sits on top
+  const drawOrder = [...DIVISIONS].sort(
+    (a, b) => Number(a.id === activeId) - Number(b.id === activeId)
+  );
+
+  const neighbourText = {
+    fontFamily: "Outfit, sans-serif",
+    fontWeight: 600,
+    letterSpacing: "0.08em",
+    fill: "#f2efe6",
+    pointerEvents: "none"
+  };
+
+  return (
+    <div className={`relative select-none ${compact ? "w-full" : "w-full"}`}>
+      <svg
+        viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`}
+        className="w-full h-auto"
+        style={{ filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.12))" }}
+      >
         <defs>
-          <linearGradient id="mapSea" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2={MAP_H}>
-            <stop offset="0" stopColor="#e3eeee"/>
-            <stop offset="1" stopColor="#c9dfe2"/>
-          </linearGradient>
-          <pattern id="mapHatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-            <line x1="0" y1="0" x2="0" y2="6" stroke="#f5ede0" strokeOpacity="0.16" strokeWidth="2"/>
-          </pattern>
-          <pattern id="mapGrid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#b9d0d3" strokeWidth="0.4"/>
-          </pattern>
+          <clipPath id="mapFrame">
+            <rect x="0" y="0" width={MAP_WIDTH} height={MAP_HEIGHT} rx="8" />
+          </clipPath>
+          <clipPath id="bangladeshOnly">
+            {DIVISIONS.map((p) => (
+              <path key={p.id} d={p.path} />
+            ))}
+          </clipPath>
         </defs>
-        <rect x={-400} y={-400} width={MAP_W + 800} height={MAP_H + 800} fill="url(#mapGrid)"/>
 
-        {/* Division shapes */}
-        {DIVISIONS.map((p) => (<g key={p.id}>
-            <path d={p.path} fill={getDivisionColor(p)} fillOpacity={getDivisionOpacity(p)} stroke={highlightedDivision === p.id ? '#f5ede0' : '#cdbf9f'} strokeLinejoin="round" strokeWidth={highlightedDivision === p.id ? 1.8 : 0.8} style={{
-                cursor: interactive ? 'pointer' : 'default',
-                transition: 'fill 0.25s ease, fill-opacity 0.25s ease',
-            }} onMouseEnter={(e) => {
-                if (!interactive)
-                    return;
+        <g clipPath="url(#mapFrame)">
+          {/* Neighbouring land (India / Myanmar) */}
+          <rect x="0" y="0" width={MAP_WIDTH} height={MAP_HEIGHT} fill="#a9a79c" />
+
+          {/* Bay of Bengal */}
+          <path d={SEA_PATH} fill="#9fd6d3" fillRule="evenodd" />
+          <text
+            x={MAP_ANCHORS.bay[0]}
+            y={MAP_ANCHORS.bay[1]}
+            textAnchor="middle"
+            fontSize="9"
+            fontStyle="italic"
+            letterSpacing="0.14em"
+            fontFamily="Outfit, sans-serif"
+            fill="#2d6e8e"
+            style={{ pointerEvents: "none" }}
+          >
+            BAY OF BENGAL
+          </text>
+
+          {/* Neighbour labels */}
+          <g fontSize="7" style={neighbourText}>
+            <text x={MAP_ANCHORS.meghalaya[0]} y={MAP_ANCHORS.meghalaya[1]} textAnchor="middle">MEGHALAYA</text>
+            <text x={MAP_ANCHORS.meghalaya[0]} y={MAP_ANCHORS.meghalaya[1] + 9} textAnchor="middle">(INDIA)</text>
+            <text x={MAP_ANCHORS.tripura[0]} y={MAP_ANCHORS.tripura[1]} textAnchor="middle" fontSize="6.5">TRIPURA</text>
+            <text x={MAP_ANCHORS.tripura[0]} y={MAP_ANCHORS.tripura[1] + 8} textAnchor="middle" fontSize="6.5">(INDIA)</text>
+            <text transform={`translate(${MAP_ANCHORS.westBengal[0]} ${MAP_ANCHORS.westBengal[1]}) rotate(-90)`} textAnchor="middle">
+              WEST BENGAL (INDIA)
+            </text>
+            <text transform={`translate(${MAP_ANCHORS.myanmar[0]} ${MAP_ANCHORS.myanmar[1]}) rotate(-90)`} textAnchor="middle">
+              MYANMAR
+            </text>
+            <text x={MAP_ANCHORS.assam[0]} y={MAP_ANCHORS.assam[1]} textAnchor="middle">INDIA</text>
+          </g>
+
+          {/* Soft same-colour edge underneath, closes tiny creeks along the coast */}
+          {DIVISIONS.filter((p) => getOpacity(p) === 1).map((p) => (
+            <path
+              key={"edge-" + p.id}
+              d={p.path}
+              fill="none"
+              stroke={p.color}
+              strokeWidth="3"
+              strokeLinejoin="round"
+              style={{ pointerEvents: "none" }}
+            />
+          ))}
+
+          {/* Division shapes */}
+          {drawOrder.map((p) => (
+            <path
+              key={p.id}
+              d={p.path}
+              fill={p.color}
+              opacity={getOpacity(p)}
+              style={{
+                cursor: interactive ? "pointer" : "default",
+                transition: "opacity 0.25s ease"
+              }}
+              onMouseEnter={(e) => {
+                if (!interactive) return;
                 setHovered(p.id);
-                const rect = e.target.closest('svg').getBoundingClientRect();
-                const svgEl = e.target.closest('svg');
+                const svgEl = e.target.closest("svg");
                 const pt = svgEl.createSVGPoint();
                 pt.x = e.clientX;
                 pt.y = e.clientY;
                 const svgPt = pt.matrixTransform(svgEl.getScreenCTM().inverse());
-                setTooltip({ x: svgPt.x, y: svgPt.y - 12, name: p.name + ' Division' });
-            }} onMouseLeave={() => {
+                setTooltip({ x: svgPt.x, y: svgPt.y - 12, name: p.name + " Division" });
+              }}
+              onMouseMove={(e) => {
+                if (!interactive) return;
+                const svgEl = e.target.closest("svg");
+                const pt = svgEl.createSVGPoint();
+                pt.x = e.clientX;
+                pt.y = e.clientY;
+                const svgPt = pt.matrixTransform(svgEl.getScreenCTM().inverse());
+                setTooltip({ x: svgPt.x, y: svgPt.y - 12, name: p.name + " Division" });
+              }}
+              onMouseLeave={() => {
                 setHovered(null);
                 setTooltip(null);
-            }} onClick={() => interactive && onDivisionClick?.(p.id)}/>
-            {highlightedDivision === p.id && (<path d={p.path} fill="url(#mapHatch)" style={{ pointerEvents: 'none' }}/>)}
+              }}
+              onClick={() => interactive && onDivisionClick?.(p.id)}
+            />
+          ))}
 
-            {/* Division label */}
-            {(!highlightedDivision || (highlightedDivision === p.id && spots.length === 0)) && (<text x={p.labelX} y={p.labelY} textAnchor="middle" fill={highlightedDivision === p.id ? '#f5ede0' : '#3a2a18'} fontSize="8.5" fontFamily="Outfit, sans-serif" fontWeight="600" letterSpacing="0.05em" style={{ pointerEvents: 'none', userSelect: 'none', textTransform: 'uppercase' }}>
-                {p.name}
-              </text>)}
-          </g>))}
+          {/* Borders between divisions */}
+          <path
+            d={INTERNAL_BORDERS}
+            fill="none"
+            stroke="#fbf6ec"
+            strokeWidth="1.3"
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            style={{ pointerEvents: "none" }}
+          />
 
-        {/* Tourist spot markers */}
-        {[...spots.map((spot, i) => ({ spot, i })).filter((x) => x.spot.name !== selectedSpot), ...spots.map((spot, i) => ({ spot, i })).filter((x) => x.spot.name === selectedSpot)].map(({ spot, i }) => {
+          {/* Outline of the active division */}
+          {activeDivision && (
+            <path
+              d={activeDivision.path}
+              fill="none"
+              stroke="#1e3d28"
+              strokeWidth="1.6"
+              strokeLinejoin="round"
+              style={{ pointerEvents: "none" }}
+            />
+          )}
+
+          {/* Rivers */}
+          <g
+            clipPath="url(#bangladeshOnly)"
+            fill="none"
+            stroke="#5aa6cf"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeOpacity="0.8"
+            style={{ pointerEvents: "none" }}
+          >
+            {RIVER_PATHS.map((d, i) => (
+              <path key={i} d={d} />
+            ))}
+          </g>
+
+          {/* Division labels */}
+          {DIVISIONS.map(
+            (p) =>
+              (!highlightedDivision || highlightedDivision === p.id) && (
+                <text
+                  key={p.id}
+                  x={p.labelX}
+                  y={p.labelY}
+                  textAnchor="middle"
+                  fill={p.textColor}
+                  fontSize={p.id === "mymensingh" ? "7.5" : "9"}
+                  fontFamily="Outfit, sans-serif"
+                  fontWeight="700"
+                  letterSpacing="0.05em"
+                  style={{ pointerEvents: "none", userSelect: "none", textTransform: "uppercase" }}
+                >
+                  {p.name}
+                </text>
+              )
+          )}
+
+          {/* Tourist spot markers */}
+          {spots.map((spot) => {
             const active = selectedSpot === spot.name;
-            return (<g key={spot.name} transform={`translate(${spot.mapX} ${spot.mapY}) scale(${pk})`} style={{ cursor: onSpotClick ? 'pointer' : 'default' }} onClick={() => onSpotClick?.(spot)}>
-            {/* Pulse ring */}
-            <circle cx={0} cy={0} r="10" fill="#c4602a" fillOpacity="0.2" style={{ pointerEvents: 'none' }}>
-              <animate attributeName="r" values={active ? '9;19;9' : '7;12;7'} dur="2.5s" repeatCount="indefinite"/>
-              <animate attributeName="fill-opacity" values="0.35;0;0.35" dur="2.5s" repeatCount="indefinite"/>
-            </circle>
-            {/* Pin body (bigger hit area underneath) */}
-            <circle cx={0} cy={0} r="11" fill="transparent"/>
-            <circle cx={0} cy={0} r={active ? 7 : 5} fill={active ? '#c4602a' : '#d4783e'} stroke="#f5ede0" strokeWidth="1.8" style={{ transition: 'r 0.25s ease' }}/>
-            <text x={0} y={2.4} textAnchor="middle" fontSize={active ? '6.5' : '5.5'} fontWeight="700" fill="#f5ede0" fontFamily="Outfit, sans-serif" style={{ pointerEvents: 'none' }}>{spot.number ?? i + 1}</text>
-          </g>);
-        })}
+            return (
+              <g
+                key={spot.name}
+                style={{ cursor: onSpotClick ? "pointer" : "default" }}
+                onClick={() => onSpotClick?.(spot)}
+              >
+                <circle cx={spot.mapX} cy={spot.mapY} r="10" fill="#c4602a" fillOpacity="0.2">
+                  <animate attributeName="r" values="8;14;8" dur="2.5s" repeatCount="indefinite" />
+                  <animate attributeName="fill-opacity" values="0.3;0;0.3" dur="2.5s" repeatCount="indefinite" />
+                </circle>
+                {active && (
+                  <circle cx={spot.mapX} cy={spot.mapY} r="9" fill="none" stroke="#1e3d28" strokeWidth="1.6" />
+                )}
+                <circle cx={spot.mapX} cy={spot.mapY} r={active ? 6.5 : 5} fill="#c4602a" stroke="#f5ede0" strokeWidth="1.5" />
+                <circle cx={spot.mapX} cy={spot.mapY} r="2" fill="#f5ede0" />
+              </g>
+            );
+          })}
 
-        {/* Division name chip (the in-shape label would sit under the pins) */}
-        {highlightedDivision && spots.length > 0 && (() => {
-            const d = DIVISIONS.find((x) => x.id === highlightedDivision);
-            const w = d.name.length * 6.2 + 34;
-            const idx = spots.findIndex((x) => x.name === selectedSpot);
-            const sel = spots[idx];
-            const sw = sel ? sel.name.length * 4.9 + 36 : 0;
-            return (<g style={{ pointerEvents: 'none' }} transform={`translate(${view.x} ${view.y + view.h - MAP_H * k}) scale(${k})`}>
-              <rect x="14" y={MAP_H - 32} width={w} height="20" rx="10" fill={d.color}/>
-              <circle cx="26" cy={MAP_H - 22} r="3" fill="#f0b88f"/>
-              <text x="35" y={MAP_H - 18.8} fill="#f5ede0" fontSize="8" fontFamily="Outfit, sans-serif" fontWeight="600" letterSpacing="0.08em" style={{ textTransform: 'uppercase' }}>{d.name}</text>
-              {/* Name of the selected spot (kept here so it never covers other pins) */}
-              {sel && (<g>
-                <rect x={w + 22} y={MAP_H - 32} width={sw} height="20" rx="10" fill="#c4602a"/>
-                <circle cx={w + 33} cy={MAP_H - 22} r="6.5" fill="#f5ede0"/>
-                <text x={w + 33} y={MAP_H - 19.2} textAnchor="middle" fill="#c4602a" fontSize="7.5" fontWeight="700" fontFamily="Outfit, sans-serif">{sel.number ?? idx + 1}</text>
-                <text x={w + 43} y={MAP_H - 18.8} fill="#f5ede0" fontSize="8" fontFamily="Outfit, sans-serif" fontWeight="600">{sel.name}</text>
-              </g>)}
-            </g>);
-        })()}
+          {/* Compass */}
+          <g transform={`translate(${MAP_ANCHORS.compass[0]}, ${MAP_ANCHORS.compass[1]})`}>
+            <text x="0" y="-10" textAnchor="middle" fontSize="7" fill="#f2efe6" fontFamily="Outfit, sans-serif" fontWeight="700">N</text>
+            <line x1="0" y1="-7" x2="0" y2="7" stroke="#f2efe6" strokeWidth="1.2" />
+            <line x1="-7" y1="0" x2="7" y2="0" stroke="#f2efe6" strokeWidth="1.2" />
+            <circle cx="0" cy="0" r="1.5" fill="#f2efe6" />
+          </g>
 
-        <text x={MAP_W - 70} y={MAP_H - 70} textAnchor="middle" fill="#7da3a8" fontSize="8" fontStyle="italic" letterSpacing="0.2em" fontFamily="Outfit, sans-serif">BAY OF BENGAL</text>
-        {/* Compass rose */}
-        <g transform={`translate(${view.x + view.w - 30 * k} ${view.y + 34 * k}) scale(${k})`}>
-          <text x="0" y="-10" textAnchor="middle" fontSize="7" fill="#6a5a48" fontFamily="Outfit, sans-serif" fontWeight="600">N</text>
-          <line x1="0" y1="-7" x2="0" y2="7" stroke="#6a5a48" strokeWidth="1.2"/>
-          <line x1="-7" y1="0" x2="7" y2="0" stroke="#6a5a48" strokeWidth="1.2"/>
-          <circle cx="0" cy="0" r="1.5" fill="#6a5a48"/>
+          {/* Tooltip */}
+          {tooltip && (
+            <g style={{ pointerEvents: "none" }}>
+              <rect
+                x={tooltip.x - 45}
+                y={tooltip.y - 18}
+                width="90"
+                height="18"
+                rx="4"
+                fill="#1e3d28"
+                fillOpacity="0.92"
+              />
+              <text
+                x={tooltip.x}
+                y={tooltip.y - 6}
+                textAnchor="middle"
+                fill="#f5ede0"
+                fontSize="7.5"
+                fontFamily="Outfit, sans-serif"
+                fontWeight="500"
+              >
+                {tooltip.name}
+              </text>
+            </g>
+          )}
         </g>
-
-        {/* Tooltip */}
-        {tooltip && (<g>
-            <rect x={tooltip.x - 45} y={tooltip.y - 18} width="90" height="18" rx="4" fill="#1e3d28" fillOpacity="0.92"/>
-            <text x={tooltip.x} y={tooltip.y - 6} textAnchor="middle" fill="#f5ede0" fontSize="7.5" fontFamily="Outfit, sans-serif" fontWeight="500" style={{ pointerEvents: 'none' }}>
-              {tooltip.name}
-            </text>
-          </g>)}
       </svg>
 
       {/* Legend for spots */}
-      {spots.length > 0 && (<div className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
-          {spots.map((s, i) => (<button key={s.name} type="button" onClick={() => onSpotClick?.(s)} className={`flex items-center gap-1.5 text-sm transition-colors ${selectedSpot === s.name ? 'text-[#1e3d28] font-semibold' : 'text-[#6a5a48] hover:text-[#1e3d28]'}`}>
-              <span className="w-4 h-4 rounded-full bg-[#c4602a] text-[#f5ede0] text-[11px] font-bold grid place-items-center flex-shrink-0">{s.number ?? i + 1}</span>
+      {spots.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {spots.map((s) => (
+            <span key={s.name} className={`flex items-center gap-1.5 text-xs text-[#4a3a28] ${selectedSpot === s.name ? "font-bold" : ""}`}>
+              <span className="w-2 h-2 rounded-full bg-[#c4602a] shrink-0" />
               {s.name}
-            </button>))}
-        </div>)}
-    </div>);
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
+
+export { BangladeshMap as default };

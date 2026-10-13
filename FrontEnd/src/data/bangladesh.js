@@ -71,6 +71,9 @@
  * @property {Facility[]} facilities
  */
 
+import puthia from './places/puthia.jpg';
+import tajhat from './places/tajhat.jpg';
+
 const images = {
   countryside: 'https://images.unsplash.com/photo-1577624060070-ca1afe89ddad?w=1600&h=900&fit=crop&auto=format',
   hills: 'https://images.unsplash.com/photo-1585123388867-3bfe6dd4bdbf?w=1600&h=900&fit=crop&auto=format',
@@ -277,7 +280,7 @@ export const divisions = [
     tagline: 'Ancient Universities, Temple Cities & Mango Country',
     description: 'Rajshahi Division holds some of Bangladesh\'s richest archaeological and architectural treasures. Paharpur\'s Buddhist monastery, Puthia\'s temple complex, the Varendra Museum and the mango orchards along the Padma tell stories stretching back more than a thousand years.',
     heroImage: images.heritage,
-    cardImage: images.countryside,
+    cardImage: puthia,
     mapColor: '#4a2865',
     tags: ['Archaeology', 'Temples', 'Mangoes', 'Silk', 'History'],
     capital: 'Rajshahi',
@@ -323,7 +326,7 @@ export const divisions = [
     tagline: 'Royal Palaces, River Plains & Northern Heritage',
     description: 'Rangpur Division is a landscape of broad rivers, winter fields, archaeological sites and remarkable architecture. Tajhat Palace, Kantajew Temple and the Teesta Barrage anchor journeys through Bangladesh\'s far north.',
     heroImage: images.countryside,
-    cardImage: images.heritage,
+    cardImage: tajhat,
     mapColor: '#2d5a3c',
     tags: ['Palaces', 'Temples', 'River Landscapes', 'Rural Culture'],
     capital: 'Rangpur',

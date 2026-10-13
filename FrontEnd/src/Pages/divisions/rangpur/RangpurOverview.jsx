@@ -73,7 +73,7 @@ export default function RangpurOverview() {
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a1810] via-[#0e2018]/45 to-[#0e2018]/20"/>
         <div className="absolute inset-0 bg-gradient-to-r from-[#0e2018]/70 via-transparent to-transparent"/>
 
-        <div className="relative z-10 w-full max-w-[2200px] mx-auto px-5 lg:px-12 pb-14 md:pb-20">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 pb-14 md:pb-20">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-[#c8d4c0] text-base mb-8 tracking-wide">
             <span>Home</span>
@@ -119,12 +119,11 @@ export default function RangpurOverview() {
 
       {/* STICKY NAV */}
       <nav className="sticky top-16 z-40 bg-[#f5ede0]/92 backdrop-blur-md border-b border-[#c8bfb0]/70">
-        <div className="max-w-[2200px] mx-auto px-4 sm:px-6 lg:px-12">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="flex gap-1 overflow-x-auto scrollbar-hide py-2">
-            {SECTIONS.map((s, i) => (<button key={s.id} onClick={() => scrollTo(s.id)} className={`flex items-center gap-2 px-4 py-2 rounded-full text-base font-semibold whitespace-nowrap transition-all duration-300 flex-shrink-0 ${activeSection === s.id
+            {SECTIONS.map((s) => (<button key={s.id} onClick={() => scrollTo(s.id)} className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-300 flex-shrink-0 ${activeSection === s.id
                 ? 'bg-[var(--accent)] text-[#f5ede0] shadow-md'
                 : 'text-[#4a3a28] hover:bg-[#e8ddd0]'}`}>
-                <span className={`text-sm ${activeSection === s.id ? 'opacity-70' : 'text-[#c4602a]'}`}>{String(i + 1).padStart(2, '0')}</span>
                 {s.label}
               </button>))}
           </div>
@@ -134,16 +133,16 @@ export default function RangpurOverview() {
         </div>
       </nav>
 
-      <div className="max-w-[2200px] mx-auto px-5 lg:px-12">
+      <div className="max-w-7xl mx-auto px-6">
         {/* OVERVIEW */}
         <section id="overview" className="scroll-mt-32 py-14 lg:py-16 border-b border-[#d4c8b8]">
           <div className="grid lg:grid-cols-[1.1fr_1fr] gap-14 items-start">
             <Reveal>
               <SectionTitle label="About This Division" title={`Discover ${shortName}`}/>
-              <p className="text-[#3a2a18] text-xl leading-[1.8] mt-6 mb-8">{division.description}</p>
+              <p className="text-[#3a2a18] text-base leading-[1.8] mt-6 mb-8">{division.description}</p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {facts.map((item) => (<div key={item.label} className="group bg-[#ede3d2] rounded-2xl px-4 py-4 border border-[#d4c8b8] hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-md transition-all duration-300">
-                    <div className="font-display font-semibold text-[#1e3d28] text-[17px] leading-tight">{item.value}</div>
+                    <div className="font-display font-semibold text-[#1e3d28] text-sm leading-tight">{item.value}</div>
                     <div className="text-sm uppercase tracking-widest text-[#8a7a68] mt-1">{item.label}</div>
                   </div>))}
               </div>
@@ -153,21 +152,20 @@ export default function RangpurOverview() {
             <Reveal delay={120}>
               <div className="rounded-3xl bg-[#ede3d2] border border-[#d4c8b8] p-6 md:p-7">
                 <div className="flex items-center justify-between mb-5">
-                  <h3 className="font-display text-[#1e3d28] text-xl font-semibold">Must-see places</h3>
-                  <button onClick={() => scrollTo('map')} className="text-base font-semibold text-[#c4602a] hover:underline underline-offset-4">View on map →</button>
+                  <h3 className="font-display text-[#1e3d28] text-base font-semibold">Must-see places</h3>
+                  <button onClick={() => scrollTo('map')} className="text-sm font-semibold text-[#c4602a] hover:underline underline-offset-4">View on map →</button>
                 </div>
                 <div className="space-y-3">
-                  {division.touristSpots.slice(0, 3).map((spot, i) => (<button key={spot.name} className="group w-full text-left flex gap-4 bg-[#f5ede0] border border-[#d4c8b8] rounded-2xl overflow-hidden hover:border-[var(--accent)] hover:shadow-md transition-all duration-300" onClick={() => scrollTo('map')}>
+                  {division.touristSpots.slice(0, 3).map((spot) => (<button key={spot.name} className="group w-full text-left flex gap-4 bg-[#f5ede0] border border-[#d4c8b8] rounded-2xl overflow-hidden hover:border-[var(--accent)] hover:shadow-md transition-all duration-300" onClick={() => scrollTo('map')}>
                       <div className="relative w-24 h-24 flex-shrink-0 bg-[#d4c8b8] overflow-hidden">
                         <img src={spot.image} alt={spot.name} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"/>
-                        <span className="absolute top-1.5 left-1.5 w-5 h-5 rounded-full bg-[#c4602a] text-[#f5ede0] text-sm font-bold grid place-items-center">{i + 1}</span>
                       </div>
                       <div className="py-3 pr-4 flex-1 min-w-0">
                         <span className="text-sm font-bold tracking-widest uppercase text-[#c4602a]">
                           {spot.type}
                         </span>
-                        <p className="font-display font-semibold text-[#1e3d28] text-lg leading-snug">{spot.name}</p>
-                        <p className="text-base text-[#6a5a48] line-clamp-2 mt-0.5">{spot.description}</p>
+                        <p className="font-display font-semibold text-[#1e3d28] text-sm leading-snug">{spot.name}</p>
+                        <p className="text-sm text-[#6a5a48] line-clamp-2 mt-0.5">{spot.description}</p>
                       </div>
                     </button>))}
                 </div>
